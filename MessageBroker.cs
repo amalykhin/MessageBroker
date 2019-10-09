@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MessageBroker
 {
@@ -7,16 +8,20 @@ namespace MessageBroker
     {
         private Pipe head;
         private StoryRouter router;
-        public MessageBroker()
+        public MessageBroker(INewsRepository repo)
         {
             head = new Pipe();
             router = new StoryRouter();
-            new Wiretap
+            var wiretap = new Wiretap
             {
                 Input = head,
                 Output = new Pipe(),
                 WiretapPipe = new Pipe()
-            }.Then(router);
+            };
+            wiretap.Then(router);
+            new DbStoreFilter(repo) {
+                Input = wiretap.WiretapPipe
+            };
         }
 
         public void Put(NewsStory story) => head.AddStory(story);

@@ -25,7 +25,8 @@ namespace MessageBroker
         }
         public void AddSubscriber(int id, string channel)
         {
-            var existingClients = clientsByChannel[channel] ?? new List<int>();
+            clientsByChannel.TryGetValue(channel, out var existingClients);
+            existingClients = existingClients ?? new List<int>();
             existingClients.Add(id);
             clientsByChannel[channel] = existingClients;
         }

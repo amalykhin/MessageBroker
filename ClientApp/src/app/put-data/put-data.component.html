@@ -1,0 +1,32 @@
+<h1>News Feed Submission</h1>
+
+<p>This component demonstrates submitting data to server.</p>
+
+<form [formGroup]="storyForm" (ngSubmit)="onSubmit(storyForm.value)">
+  <div>
+    <label for="title">
+      Title
+    </label>
+    <input id="title" type="text" formControlName="title">
+  </div>
+  <div>
+    <label for="author">
+      Author
+    </label>
+    <input id="author" type="text" formControlName="author">
+  </div>
+  <div>
+    <label for="tag">
+      Tag
+    </label>
+    <input id="tag" type="text" formControlName="tag">
+  </div>
+  <div>
+    <label for="body">
+      Body
+    </label>
+    <input id="body" type="text" formControlName="body">
+  </div>
+
+  <button class="button" type="submit">Submit</button>
+</form>

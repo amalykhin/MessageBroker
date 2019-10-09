@@ -23,7 +23,16 @@ namespace MessageBroker
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.Configure<Settings>(options =>
+            {
+                options.ConnectionString 
+                    = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                options.Database 
+                    = Configuration.GetSection("MongoConnection:Database").Value;
+            });
+            services.AddTransient<INewsRepository, NewsRepository>();
             services.AddSingleton<MessageBroker, MessageBroker>();
+            services.AddSingleton<ClientService, ClientService>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

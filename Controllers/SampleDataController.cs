@@ -15,24 +15,34 @@ namespace MessageBroker.Controllers
         private MessageBroker broker;
         private IHttpContextAccessor context;
         private ClientService clientService;
+        private INewsRepository repo;
 
-        public SampleDataController(IHttpContextAccessor contextAccessor, MessageBroker broker, ClientService clientService)
+        public SampleDataController(IHttpContextAccessor contextAccessor, 
+                                    MessageBroker broker, 
+                                    ClientService clientService,
+                                    INewsRepository repo)
         {
             this.broker = broker;
             this.context = contextAccessor;
             this.clientService = clientService;
+            this.repo = repo;
         }
 
         private IPAddress GetClientIP() => context.HttpContext?.Connection?.RemoteIpAddress;
 
         [HttpGet("/subscribe/{channel}")]
-        public IActionResult Subscribe(string channel)
+        public object Subscribe(string channel)
         {
             var ip = GetClientIP();
             var clientId = clientService.AddClient(ip);
             clientService.AddSubscriber(clientId, channel);
 
-            return Ok();
+            var latestNews = repo.GetLatestNews(channel).Result;
+            return Ok(new
+            {
+                ClientId = clientId,
+                News = latestNews
+            });
         }
         
         [HttpGet("/{clientId}/stories")]
@@ -42,5 +52,13 @@ namespace MessageBroker.Controllers
             return channelNames.SelectMany(name => broker.Get(name));
         }
 
+        [HttpPost("/stories")]
+        public IActionResult PostStory([FromBody] NewsStory story)
+        {
+            Console.WriteLine($"PostStory controller: {story.Title} {story.Author} {story.Tag}");
+            broker.Put(story);
+
+            return Ok();
+        }
     }
 }

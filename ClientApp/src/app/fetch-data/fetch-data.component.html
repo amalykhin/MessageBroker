@@ -1,24 +1,26 @@
-<h1>Weather forecast</h1>
+<h1>News Feed</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<p *ngIf="!forecasts"><em>Loading...</em></p>
-
-<table class='table table-striped' *ngIf="forecasts">
+<p *ngIf="!stories"><em>Loading...</em></p>
+<p *ngIf="stories">{{ stories.length }}</p>
+<table class='table table-striped' *ngIf="stories">
   <thead>
     <tr>
-      <th>Date</th>
-      <th>Temp. (C)</th>
-      <th>Temp. (F)</th>
-      <th>Summary</th>
+      <th>Tag</th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Published Date</th>
+      <th>Modified Date</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let forecast of forecasts">
-      <td>{{ forecast.dateFormatted }}</td>
-      <td>{{ forecast.temperatureC }}</td>
-      <td>{{ forecast.temperatureF }}</td>
-      <td>{{ forecast.summary }}</td>
+    <tr *ngFor="let forecast of stories">
+      <td>{{ forecast.tag }}</td>
+      <td>{{ forecast.title }}</td>
+      <td>{{ forecast.author }}</td>
+      <td>{{ forecast.publishedDate }}</td>
+      <td>{{ forecast.modifiedDate }}</td>
     </tr>
   </tbody>
 </table>

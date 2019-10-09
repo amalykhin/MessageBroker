@@ -9,7 +9,12 @@ namespace MessageBroker
 
         public delegate void PipeEventHandler(NewsStory story);
         public event PipeEventHandler OnStoryAdded;
-        public void AddStory(NewsStory story) => storyQueue.Enqueue(story); 
+
+        public void AddStory(NewsStory story)
+        {
+            storyQueue.Enqueue(story);
+            OnStoryAdded?.Invoke(story);
+        }
         public NewsStory GetStory() => storyQueue.Dequeue();
     }
 
