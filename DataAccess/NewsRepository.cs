@@ -35,7 +35,7 @@ namespace MessageBroker
         {
             try
             {
-                var query = _context.News.Find(story => story.Tag.Contains(tag));
+                var query = _context.News.Find(story => story.Tag.Equals(tag));
 
                 return await query.ToListAsync();
             }
@@ -50,7 +50,7 @@ namespace MessageBroker
         {
             try
             {
-                var query = _context.News.Find(story => story.Tag.Contains(tag)).Limit(5);
+                var query = _context.News.Find(story => story.Tag.Equals(tag)).Limit(5);
                 return await query.ToListAsync();
             }
             catch (Exception ex)

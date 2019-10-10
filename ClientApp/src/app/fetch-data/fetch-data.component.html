@@ -3,7 +3,15 @@
 <p>This component demonstrates fetching data from the server.</p>
 
 <p *ngIf="!stories"><em>Loading...</em></p>
-<p *ngIf="stories">{{ stories.length }}</p>
+
+<div class="input-group input-group-sm mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="inputGroup-sizing-sm">Tag</span>
+  </div>
+  <input #subscriptionInput type="text" class="form-control" (focusout)="subscriptionHandler(subscriptionInput)">
+</div>
+
+<h5 *ngIf="tags">Subscribed tags: {{ tags.join(', ') || "none" }}</h5>
 <table class='table table-striped' *ngIf="stories">
   <thead>
     <tr>
