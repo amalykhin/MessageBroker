@@ -1,0 +1,19 @@
+.story-tag, .story-author, .story-published {
+  color: gray;
+  font-size: 9pt;
+}
+.story-tag, .story-author {
+  line-height: 0;
+}
+.story-tag {
+  margin-right: 1em;
+}
+h2 {
+  margin: 0;
+}
+.story {
+  margin-bottom: 20px;
+}
+input:focus {
+  outline: none;
+}
