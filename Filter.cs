@@ -53,6 +53,26 @@ namespace MessageBroker
         }
     }
 
+    public class ContentEnricher : Filter
+    {
+        public override void ProcessStory(NewsStory s)
+        {
+            Console.WriteLine("Inside ProcessStory");
+            var story = _in.GetStory();
+            if (story.PublishedDate == default(DateTime))
+            {
+                story.PublishedDate = DateTime.Now;
+            }
+
+            if (string.IsNullOrEmpty(story.Author))
+            {
+                story.Author = "Anonymous";
+            }
+            
+            _out.AddStory(story);
+        }
+    }
+    
     public class Wiretap : Filter
     {
         private Pipe _out2;

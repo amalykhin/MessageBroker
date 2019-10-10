@@ -50,7 +50,11 @@ namespace MessageBroker
         {
             try
             {
-                var query = _context.News.Find(story => story.Tag.Equals(tag)).Limit(5);
+                var query = _context.News
+                    .Find(story => story.Tag.Equals(tag))
+                    .Sort("{ModifiedDate:-1}")
+                    .Skip(1)
+                    .Limit(5);
                 return await query.ToListAsync();
             }
             catch (Exception ex)

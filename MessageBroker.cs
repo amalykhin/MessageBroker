@@ -14,11 +14,15 @@ namespace MessageBroker
             router = new StoryRouter();
             var wiretap = new Wiretap
             {
-                Input = head,
-                Output = new Pipe(),
                 WiretapPipe = new Pipe()
             };
-            wiretap.Then(router);
+            new ContentEnricher
+            {
+                Input = head,
+                Output = new Pipe()
+            }.Then(wiretap).Then(router, new Pipe());
+
+            //wiretap.Then(router);
             new DbStoreFilter(repo) {
                 Input = wiretap.WiretapPipe
             };
