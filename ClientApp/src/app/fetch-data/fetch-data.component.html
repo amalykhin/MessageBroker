@@ -17,9 +17,9 @@
     <h2>{{ story.title }}</h2>
     <div>
       <span class='story-tag'>{{ story.tag }}</span>
-      <em class='story-author'>by {{ story.author}}</em>
+      <em class='story-author'>by {{ story.author }}</em>
     </div>
     <p class='story-body'>{{ story.body }}</p>
-    <div class='story-published'>{{ story.publishedDate }}</div>
+    <div class='story-published'>{{ story.publishedDate | date }}</div>
   </div>
 </div>
