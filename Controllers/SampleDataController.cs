@@ -36,20 +36,16 @@ namespace MessageBroker.Controllers
             var ip = GetClientIP();
             var clientId = clientService.AddClient(ip);
             clientService.AddSubscriber(clientId, channel);
-
-            var latestNews = repo.GetLatestNews(channel).Result;
-            return Ok(new
-            {
-                ClientId = clientId,
-                News = latestNews
-            });
+            broker.Subscribe(channel, clientId);
+            
+            return Ok(clientId);
         }
         
         [HttpGet("/{clientId}/stories")]
         public IEnumerable<NewsStory> GetStories(int clientId)
         {
             var channelNames = clientService.GetSubscribedChannels(clientId);
-            return channelNames.SelectMany(name => broker.Get(name));
+            return channelNames.SelectMany(name => broker.Get(name, clientId));
         }
 
         [HttpPost("/stories")]

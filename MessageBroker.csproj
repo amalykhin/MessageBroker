@@ -24,6 +24,16 @@
     <Content Include="ClientApp\src\app\fetch-data\fetch-data.component.css" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Remove="db\**" />
+    <Content Remove="db\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="db\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="db\**" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

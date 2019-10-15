@@ -10,7 +10,7 @@ namespace MessageBroker
         Pipe Input { set; }
         Pipe Output { set; }
         void ProcessStory(NewsStory story);
-        IFilter Then(IFilter filter, Pipe pipe);
+        IFilter Then(IFilter filter, Pipe pipe = null);
     }
 
     public abstract class Filter : IFilter
@@ -34,6 +34,7 @@ namespace MessageBroker
         }
 
         public abstract void ProcessStory(NewsStory story);
+        
         public IFilter Then(IFilter filter, Pipe pipe = null)
         {
             Pipe p;
@@ -110,14 +111,14 @@ namespace MessageBroker
         {
             Console.WriteLine("Inside StoryRouter");
             var story = _in.GetStory();
-            if (!_out.ContainsKey(story.Tag))
-            {
-                AddChannel(story.Tag);
-            }
+//            if (!_out.ContainsKey(story.Tag))
+//            {
+//                AddChannel(story.Tag);
+//            }
             _out[story.Tag].AddStory(story);
         }
 
-        public void AddChannel(string channelName) => AddChannel(new Channel(channelName));
+        //public void AddChannel(string channelName) => AddChannel(new Channel(channelName));
         public void AddChannel(Channel channel) => _out.Add(channel.Name, channel);
 
         public Channel GetChannel(string name)
@@ -125,6 +126,8 @@ namespace MessageBroker
             _out.TryGetValue(name, out var channel);
             return channel;
         }
+
+        public bool HasChannel(string name) => _out.ContainsKey(name);
     }
 
     public class DbStoreFilter : Filter
