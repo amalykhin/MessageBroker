@@ -6,7 +6,7 @@ A simple message broker for "Distributed Applications Programming" course
 2. REST-сервис, содержащий message broker.
 
 Схема реализации message broker выглядит следующим образом:
-
+![Message Broker pipeline](pipeline.png)
 
 ## Message Channel (Канал сообщений)
 Канал сообщений реализован в виде объектов класса `Channel`. Каждый объект данного класса имеет имя, позволяющее его идентифицировать, и очередь сообщений (на самом деле по очереди сообщений для каждого пользователя, но об этом далее). 
